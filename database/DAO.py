@@ -1,6 +1,6 @@
 
 from database.DB_connect import DBConnect
-from model.Driver import Driver
+from model.driver import Driver
 
 
 class DAO:
@@ -28,6 +28,7 @@ class DAO:
         return results
 
     @staticmethod
+       #@staticmethod non richiede self
     def getDriver(da, a):
         # RECUPERO I PILOTI CHE HANNO CONCLUSO ALMENO UNA GARA
         conn = DBConnect.get_connection()
@@ -78,6 +79,8 @@ class DAO:
               AND d.driverId < d2.driverId
             GROUP BY pilota1, pilota2
         """
+        #P1 E P2 STESSA GARA -> AND r2.raceId = rc2.raceId
+        #P1 E P2 COMPAGNI DI SQUADRA(stesso Id di squadra) -> AND r.constructorId = r2.constructorId
 
         cursor.execute(query, (da, a, da, a))
         results = []

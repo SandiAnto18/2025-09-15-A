@@ -3,50 +3,50 @@ import networkx as nx
 
 from database.DAO import DAO
 
-
 class Model:
+
     def __init__(self):
-        self._graph = nx.Graph()  # Grafo semplice e pesato
+        # CREO UN GRAFO SEMPLICE E PESATO (non orientato)
+        self._graph = nx.Graph()
 
     def getAllYears(self):
-        # Recupero gli anni dal DAO
+        # RECUPERO GLI ANNI DAL DAO
         return DAO.getAllYears()
 
-    def buildGraph(self,da,a):
-        piloti= DAO.getDriver(da,a)
+    def buildGraph(self, da, a):
+        # RECUPERO I PILOTI DEL PERIODO
+        piloti = DAO.getDriver(da, a)
 
-        # Svuoto il grafo prima di ricostruirlo
+        # SVUOTO IL GRAFO PRECEDENTE
         self._graph.clear()
 
-        # Aggiungo i costruttori come nodi
+        # AGGIUNGO I PILOTI COME NODI
         self._graph.add_nodes_from(piloti)
 
-        # Creo una mappa: ID -> oggetto Pilota
-        pMap = {}
-        for p in piloti:
-                pMap[p.driverId] = p
-        # Recupero le coppie di costruttori e i relativi pesi
-        archi = DAO.getP1P2peso(da,a)
+        # CREO UNA MAPPA per collegare l' ID PILOTA all' OGGETTO DRIVER
+        dMap = {}
+        for d in piloti:
+            dMap[d.driverId] = d
 
-        # Aggiungo gli archi con il loro peso
+        # RECUPERO LE COPPIE DI PILOTI E I PESI
+        archi = DAO.getP1P2peso(da, a)
+
+        # AGGIUNGO GLI ARCHI CON IL LORO PESO
         for p1, p2, peso in archi:
-                pilota1 = pMap[p1]
-                pilota2 = pMap[p2]
+            pilota1 = dMap[p1]
+            pilota2 = dMap[p2]
 
-                self._graph.add_edge(
-                    pilota1,
-                    pilota2,
-                    weight=peso
-                )
+            self._graph.add_edge(
+                pilota1,
+                pilota2,
+                weight=peso
+            )
 
     def getNumNodi(self):
-            # Restituisco il numero di nodi
-            return len(self._graph.nodes())
+        # RESTITUISCO IL NUMERO DI NODI
+        return self._graph.number_of_nodes()
 
     def getNumArchi(self):
-            # Restituisco il numero di archi
-            return len(self._graph.edges())
-
-
-
+        # RESTITUISCO IL NUMERO DI ARCHI
+        return self._graph.number_of_edges()
 
