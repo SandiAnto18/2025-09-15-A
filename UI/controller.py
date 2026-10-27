@@ -8,7 +8,7 @@ class Controller:
         # the model, which implements the logic of the program and holds the data
         self._model = model
 
-    def fillddYear(self):
+    def fillddYears(self):
         # Recupero gli anni dal Model
         years = self._model.getAllYears()
 
@@ -45,8 +45,6 @@ class Controller:
         # Aggiorno la pagina
         self._view.update_page()
 
-    def handleCreaGrafo(self,e):
-        pass
     def handleDettagli(self, e):
         pass
     def handleCerca(self, e):
