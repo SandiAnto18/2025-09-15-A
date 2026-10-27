@@ -50,3 +50,35 @@ class Model:
         # RESTITUISCO IL NUMERO DI ARCHI
         return self._graph.number_of_edges()
 
+    def getTop3Edges(self):
+        # Recupero gli archi con i relativi attributi
+        edges = list(self._graph.edges(data=True))
+
+        # Ordino per peso decrescente
+        edges.sort(key=lambda e: -e[2]["weight"])
+
+        # Restituisco i primi tre archi
+        return edges[:3]
+
+    def TotCompConnesse(self):
+        # Individuo tutte le componenti connesse
+        comp = list(nx.connected_components(self._graph))
+        return comp
+
+    def getLargestComp(self, comp):
+        # Scelgo la componente con più nodi
+        largest = max(comp, key=len)
+
+        # Ordino i nodi per grado decrescente
+        largestOrdinata = sorted(
+            largest,
+            key=lambda x: self._graph.degree(x),
+            reverse=True
+        )
+
+        return largestOrdinata
+
+    def getDegree(self, c):
+        # Restituisco il grado del costruttore
+        return self._graph.degree(c)
+

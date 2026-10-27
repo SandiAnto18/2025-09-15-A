@@ -33,7 +33,7 @@ class Controller:
 
         # Visualizzo il numero di nodi e archi
         self._view.txt_result.controls.append(
-            ft.Text("Grafo correttamente creato")
+            ft.Text("Grafo correttamente creato:")
         )
         self._view.txt_result.controls.append(
             ft.Text(f"Numero di nodi: {self._model.getNumNodi()}")
@@ -46,7 +46,64 @@ class Controller:
         self._view.update_page()
 
     def handleDettagli(self, e):
-        pass
+
+
+        # Pulisco i risultati precedenti
+        self._view.txt_result.controls.clear()
+
+        # Recupero le componenti connesse
+        cc = self._model.TotCompConnesse()
+
+        # Stampo il numero di componenti connesse
+        self._view.txt_result.controls.append(
+            ft.Text(f"Numero di componenti connesse: {len(cc)}")
+        )
+
+        # Recupero la componente più grande, ordinata per grado decrescente
+        largest = self._model.getLargestComp(cc)
+
+        # Stampo la dimensione della componente più grande
+        self._view.txt_result.controls.append(
+            ft.Text(f"Dimensione della componente connessa più grande/maggior numero di nodi: {len(largest)} nodi")
+        )
+
+        # Stampo tutti i nodi della componente più grande
+        self._view.txt_result.controls.append(
+            ft.Text("Nodi della componente più grande:")
+        )
+
+        for c in largest:
+            self._view.txt_result.controls.append(
+                ft.Text(f"- {c} ({c.driverId}) -- {c.dob}")
+            )
+
+        # Stampo i nodi con il relativo grado
+        self._view.txt_result.controls.append(
+            ft.Text("Nodi ordinati per grado decrescente:")
+        )
+
+        for c in largest:
+            self._view.txt_result.controls.append(
+                ft.Text(f"- {c} --{c.dob} (grado: {self._model.getDegree(c)})")
+            )
+
+        # Recupero e stampo i tre archi di peso maggiore
+        topEdges = self._model.getTop3Edges()
+
+        self._view.txt_result.controls.append(
+            ft.Text("TOP 3 ARCHI DI PESO MAGGIORE:")
+        )
+
+        for i, (c1, c2, data) in enumerate(topEdges, start=1):
+            self._view.txt_result.controls.append(
+                ft.Text(
+                    f"{i}. {c1} -- {c2}: "
+                    f"({data['weight']})"
+                )
+            )
+
+        # Aggiorno la pagina
+        self._view.update_page()
+
     def handleCerca(self, e):
         pass
-
