@@ -8,7 +8,7 @@ class Controller:
         # the model, which implements the logic of the program and holds the data
         self._model = model
 
-    def fillddYears(self):
+    def fillAllYears(self):
         # Recupero gli anni dal Model
         years = self._model.getAllYears()
 

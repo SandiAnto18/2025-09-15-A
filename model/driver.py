@@ -5,7 +5,7 @@ import datetime
 # CLASSE CHE RAPPRESENTA UN PILOTA
 class Driver:
 
-    driverId = int
+    driverId : int
     driverRef: str
     number: int
     code: str
@@ -13,7 +13,6 @@ class Driver:
     surname: str
     dob: datetime.date
     nationality: str
-    country: str
     url: str
 
     # RESTITUISCO IL NOME COMPLETO DEL PILOTA
